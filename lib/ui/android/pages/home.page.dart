@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:imcflutter/blocs/imc.bloc.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({Key? key}) : super(key: key);
@@ -8,6 +9,8 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends State<HomePage> {
+  var bloc = new ImcBloc();
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -17,6 +20,7 @@ class _HomePageState extends State<HomePage> {
           Padding(
             padding: EdgeInsets.all(20),
             child: TextFormField(
+              controller: bloc.heightCtrl,
               decoration: InputDecoration(labelText: "Altura (cm)"),
               keyboardType: TextInputType.number,
             ),
@@ -24,6 +28,7 @@ class _HomePageState extends State<HomePage> {
           Padding(
             padding: EdgeInsets.all(20),
             child: TextFormField(
+              controller: bloc.weightCtrl,
               decoration: InputDecoration(
                 labelText: "Peso (kg)",
               ),
@@ -32,8 +37,7 @@ class _HomePageState extends State<HomePage> {
           ),
           Padding(
               padding: EdgeInsets.all(20),
-              child: Text("Você está fora de forma!",
-                  textAlign: TextAlign.center)),
+              child: Text(bloc.result, textAlign: TextAlign.center)),
           Padding(
               padding: EdgeInsets.all(20),
               child: TextButton(
@@ -43,7 +47,11 @@ class _HomePageState extends State<HomePage> {
                   "Calcular",
                   style: TextStyle(color: Colors.white),
                 ),
-                onPressed: () {},
+                onPressed: () {
+                  setState(() {
+                    bloc.calculate();
+                  });
+                },
               ))
         ],
       ),
